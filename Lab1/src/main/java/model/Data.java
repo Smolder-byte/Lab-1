@@ -11,7 +11,6 @@ public class Data {
     private Map<String, List<Double>> results = new HashMap<>();
     
     public Data() {
-        // Инициализируем списки для результатов
         String[] metrics = {"GeometricMean", "ArithmeticMean", "StandardDeviation", 
                            "Range", "Count", "VariationCoefficient", 
                            "ConfidenceLower", "ConfidenceUpper", 
