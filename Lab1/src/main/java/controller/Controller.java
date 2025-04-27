@@ -130,7 +130,7 @@ private void calculateStatistics() {
         model.addResult("Min", Calculator.min(sample));
         model.addResult("Max", Calculator.max(sample));
         
-        view.appendText(String.format("\nВыборка: " + i+1));
+        view.appendText(String.format("\nВыборка: " + (i+1)));
         view.appendText(String.format("Элементов: " + sample.length));
         view.appendText(String.format("Все показатели рассчитаны"));
     }
@@ -143,7 +143,7 @@ private void calculateStatistics() {
                     model.getSamples().get(i), 
                     model.getSamples().get(j)
                 );
-                view.appendText(String.format("Выборки %d и %d: %.4f", i+1, j+1, cov));
+                view.appendText(String.format("Выборки " + (i+1) + " и " + (j+1) + ": " + cov));
             }
         }
     }
@@ -170,11 +170,32 @@ private void exportResults() {
         addMetricRow(sheet, 2, "Среднее арифметическое", "ArithmeticMean");
         addMetricRow(sheet, 3, "Стандартное отклонение", "StandardDeviation");
         addMetricRow(sheet, 4, "Размах", "Range");
-        addMetricRow(sheet, 5, "Коэфф. вариации", "VariationCoefficient");
-        addMetricRow(sheet, 6, "Дов. интервал (нижн)", "ConfidenceLower");
-        addMetricRow(sheet, 7, "Дов. интервал (верхн)", "ConfidenceUpper");
-        addMetricRow(sheet, 8, "Минимум", "Min");
-        addMetricRow(sheet, 9, "Максимум", "Max");
+        addMetricRow(sheet, 5, "Количество элементов", "Count");
+        addMetricRow(sheet, 6, "Коэфф. вариации", "VariationCoefficient");
+        addMetricRow(sheet, 7, "Дов. интервал (нижн)", "ConfidenceLower");
+        addMetricRow(sheet, 8, "Дов. интервал (верхн)", "ConfidenceUpper");
+        addMetricRow(sheet, 9, "Минимум", "Min");
+        addMetricRow(sheet, 10, "Максимум", "Max");
+        
+        if (model.getSamples().size() > 1) {
+            int lastRowNum = sheet.getLastRowNum();
+            
+            Row covarHeader = sheet.createRow(lastRowNum + 2);
+            covarHeader.createCell(0).setCellValue("Ковариация");
+            
+            for (int i = 0; i < model.getSamples().size(); i++) {
+                Row row = sheet.createRow(lastRowNum + 3 + i);
+                row.createCell(0).setCellValue("Выборка " + (i+1));
+                
+                for (int j = 0; j < model.getSamples().size(); j++) {
+                        double cov = Calculator.covariance(
+                            model.getSamples().get(i),
+                            model.getSamples().get(j)
+                        );
+                        row.createCell(j+1).setCellValue(cov);
+                    }
+                }
+            }
         
         workbook.write(fos);
         view.appendText("\nРезультаты сохранены в: " + path);
