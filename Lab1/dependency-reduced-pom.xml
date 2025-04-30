@@ -18,7 +18,7 @@
             <configuration>
               <transformers>
                 <transformer>
-                  <mainClass>com.mycompany.lab1.Main</mainClass>
+                  <mainClass>Lab1</mainClass>
                 </transformer>
               </transformers>
             </configuration>
@@ -29,7 +29,7 @@
   </build>
   <properties>
     <maven.compiler.target>22</maven.compiler.target>
-    <exec.mainClass>com.mycompany.lab1.Lab1</exec.mainClass>
+    <exec.mainClass>Lab1</exec.mainClass>
     <maven.compiler.source>22</maven.compiler.source>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>

@@ -9,7 +9,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>22</maven.compiler.source>
         <maven.compiler.target>22</maven.compiler.target>
-        <exec.mainClass>com.mycompany.lab1.Lab1</exec.mainClass>
+        <exec.mainClass>Lab1</exec.mainClass>
     </properties> 
 <dependencies>
     <dependency>
@@ -28,8 +28,8 @@
         <version>3.6.1</version>
     </dependency>
     </dependencies> 
-     <build>
-        <plugins>
+<build> 
+<plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
@@ -43,7 +43,7 @@
                         <configuration>
                             <transformers>
                                 <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                    <mainClass>com.mycompany.lab1.Lab1</mainClass>
+                                    <mainClass>Lab1</mainClass>
                                 </transformer>
                             </transformers>
                         </configuration>
@@ -53,3 +53,4 @@
         </plugins>
     </build>
 </project>
+
