@@ -19,8 +19,7 @@ public class Calculator {
     }
     
     public static double range(double[] data) {
-        DescriptiveStatistics stats = new DescriptiveStatistics(data);
-        return stats.getMax() - stats.getMin();
+        return StatUtils.max(data) - StatUtils.min(data);
     }
     
     public static int count(double[] data) {
