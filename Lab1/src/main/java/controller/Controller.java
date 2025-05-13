@@ -148,8 +148,6 @@ private void calculateStatistics() {
         model.addResult("Max", Calculator.max(sample));
         
         view.appendText(String.format("\nВыборка: " + (i+1)));
-        view.appendText(String.format("\nВыборка: " + (i+1)));
-        System.out.println(sample);
         view.appendText(String.format("Все показатели рассчитаны"));
     }
     
