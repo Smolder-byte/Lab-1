@@ -87,10 +87,27 @@ private void importData() {
                 if (currentRow == null) continue;
                 
                 Cell cell = currentRow.getCell(col);
-                if (cell == null || cell.getCellType() != CellType.NUMERIC) {
+                if (cell == null) {
                     sample[row - 1] = 0;
-                } else {
-                    sample[row - 1] = cell.getNumericCellValue();
+                    continue;
+                }
+                
+                switch (cell.getCellType()) {
+                    case NUMERIC:
+                        sample[row - 1] = cell.getNumericCellValue();
+                        break;
+                    case FORMULA:
+                        FormulaEvaluator evaluator = workbook.getCreationHelper().createFormulaEvaluator();
+                        CellValue cellValue = evaluator.evaluate(cell);
+                        
+                        if (cellValue.getCellType() == CellType.NUMERIC) {
+                            sample[row - 1] = cellValue.getNumberValue();
+                        } else {
+                            sample[row - 1] = 0;
+                        }
+                        break;
+                    default:
+                        sample[row - 1] = 0;
                 }
             }
             
@@ -131,7 +148,8 @@ private void calculateStatistics() {
         model.addResult("Max", Calculator.max(sample));
         
         view.appendText(String.format("\nВыборка: " + (i+1)));
-        view.appendText(String.format("Элементов: " + sample.length));
+        view.appendText(String.format("\nВыборка: " + (i+1)));
+        System.out.println(sample);
         view.appendText(String.format("Все показатели рассчитаны"));
     }
     
@@ -174,8 +192,9 @@ private void exportResults() {
         addMetricRow(sheet, 6, "Коэфф. вариации", "VariationCoefficient");
         addMetricRow(sheet, 7, "Дов. интервал (нижн)", "ConfidenceLower");
         addMetricRow(sheet, 8, "Дов. интервал (верхн)", "ConfidenceUpper");
-        addMetricRow(sheet, 9, "Минимум", "Min");
-        addMetricRow(sheet, 10, "Максимум", "Max");
+        addMetricRow(sheet, 9, "Дисперсия", "Variance");
+        addMetricRow(sheet, 10, "Минимум", "Min");
+        addMetricRow(sheet, 11, "Максимум", "Max");
         
         if (model.getSamples().size() > 1) {
             int lastRowNum = sheet.getLastRowNum();
